@@ -29,6 +29,7 @@ Aplikasi toko online lintas platform berbasis **Flutter** dengan desain antarmuk
 
 ## Struktur Folder
 
+```text
 App_Gis/
 ├── android/           # Konfigurasi native Android
 ├── ios/               # Konfigurasi native iOS
