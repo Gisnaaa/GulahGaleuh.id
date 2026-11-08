@@ -49,8 +49,9 @@ class Product {
     this.images = const [],
     this.isDeleted = false,
     this.deletedOn,
-  })  : dimensions = dimensions ?? Dimensions(width: 0, height: 0, depth: 0),
-        meta = meta ?? Meta(createdAt: '', updatedAt: '', barcode: '', qrCode: '');
+  }) : dimensions = dimensions ?? Dimensions(width: 0, height: 0, depth: 0),
+       meta =
+           meta ?? Meta(createdAt: '', updatedAt: '', barcode: '', qrCode: '');
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
@@ -72,29 +73,39 @@ class Product {
       warrantyInformation: json['warrantyInformation'] ?? '',
       shippingInformation: json['shippingInformation'] ?? '',
       availabilityStatus: json['availabilityStatus'] ?? '',
-      reviews: (json['reviews'] as List?)
-              ?.map((e) => Review.fromJson(e))
-              .toList() ??
+      reviews:
+          (json['reviews'] as List?)?.map((e) => Review.fromJson(e)).toList() ??
           [],
       returnPolicy: json['returnPolicy'] ?? '',
       minimumOrderQuantity: json['minimumOrderQuantity'] ?? 1,
       meta: Meta.fromJson(json['meta'] ?? {}),
       thumbnail: json['thumbnail'] ?? '',
-      images: (json['images'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      images:
+          (json['images'] as List?)?.map((e) => e.toString()).toList() ?? [],
       isDeleted: json['isDeleted'] ?? false,
       deletedOn: json['deletedOn'],
     );
   }
 
+  /// Diskon dianggap ada jika minimal 1%.
+  bool get hasDiscount => discountPercentage >= 1;
+
+  /// Harga setelah diskon. `price` adalah harga awal.
+  double get discountedPrice => hasDiscount
+      ? double.parse(
+          (price * (1 - discountPercentage / 100)).toStringAsFixed(2),
+        )
+      : price;
+
   Map<String, dynamic> toJson() => {
-        'title': title,
-        'description': description,
-        'category': category,
-        'price': price,
-        'brand': brand,
-        'stock': stock,
-        'thumbnail': thumbnail,
-      };
+    'title': title,
+    'description': description,
+    'category': category,
+    'price': price,
+    'brand': brand,
+    'stock': stock,
+    'thumbnail': thumbnail,
+  };
 
   Product copyWith({
     String? title,

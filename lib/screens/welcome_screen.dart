@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 import '../providers/product_provider.dart';
 import '../theme/app_theme.dart';
 
@@ -40,7 +41,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     });
     _timer = Timer.periodic(const Duration(seconds: 4), (_) {
       if (!mounted || !_page.hasClients) return;
-      final count = math.min(3, context.read<ProductProvider>().products.length);
+      final count = math.min(
+        3,
+        context.read<ProductProvider>().products.length,
+      );
       if (count < 2) return;
       _page.animateToPage(
         (_current + 1) % count,
@@ -77,34 +81,37 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   }
 
   Widget _perk(IconData icon, String label) => Expanded(
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          decoration: AppStyle.panel(radius: 16),
-          child: Column(
-            children: [
-              Icon(icon, size: 20, color: AppColors.primary),
-              const SizedBox(height: 6),
-              Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 11.5,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
-                ),
-              ),
-            ],
+    child: Container(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      decoration: AppStyle.panel(radius: 16),
+      child: Column(
+        children: [
+          Icon(icon, size: 20, color: AppColors.primary),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 11.5,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primary,
+            ),
           ),
-        ),
-      );
+        ],
+      ),
+    ),
+  );
 
   Widget _productImage(String url) {
-    const fallback =
-        Icon(Icons.shopping_bag_rounded, size: 120, color: AppColors.primary);
+    const fallback = Icon(
+      Icons.shopping_bag_rounded,
+      size: 120,
+      color: AppColors.primary,
+    );
     if (url.isEmpty) return fallback;
     return CachedNetworkImage(
       imageUrl: url,
       fit: BoxFit.contain,
-      errorWidget: (_, __, ___) => fallback,
+      errorWidget: (_, _, _) => fallback,
     );
   }
 
@@ -134,8 +141,11 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         color: AppColors.blue,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(Icons.storefront_rounded,
-                          size: 20, color: AppColors.primary),
+                      child: const Icon(
+                        Icons.storefront_rounded,
+                        size: 20,
+                        color: AppColors.primary,
+                      ),
                     ),
                     const SizedBox(width: 10),
                     const Text(
@@ -215,8 +225,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                 onPageChanged: (i) =>
                                     setState(() => _current = i),
                                 itemBuilder: (_, i) => Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                  ),
                                   child: _productImage(items[i]),
                                 ),
                               ),
@@ -232,17 +243,20 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                   children: List.generate(
                                     items.length,
                                     (i) => AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 300),
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
                                       margin: const EdgeInsets.symmetric(
-                                          horizontal: 3),
+                                        horizontal: 3,
+                                      ),
                                       width: i == _current ? 22 : 7,
                                       height: 7,
                                       decoration: BoxDecoration(
                                         color: i == _current
                                             ? AppColors.primary
-                                            : AppColors.primary
-                                                .withOpacity(0.25),
+                                            : AppColors.primary.withValues(
+                                                alpha: 0.25,
+                                              ),
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                     ),

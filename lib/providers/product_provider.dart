@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../models/product_model.dart';
 import '../services/api_service_products.dart';
 
@@ -27,7 +28,7 @@ class ProductProvider extends ChangeNotifier {
     try {
       final res = await _api.getAllProducts(limit: limit, skip: skip);
       _products = res.products;
-      _total = res.total;
+      _total = res.total > 0 ? res.total : res.products.length;
     } catch (e) {
       _error = e.toString();
     }
@@ -47,7 +48,8 @@ class ProductProvider extends ChangeNotifier {
   }
 
   Future<void> searchProducts(String query) async {
-    if (query.isEmpty) {
+    final q = query.trim();
+    if (q.isEmpty) {
       return fetchProducts();
     }
 
@@ -56,11 +58,13 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final res = await _api.searchProducts(query);
+      final res = await _api.searchProducts(q);
       _products = res.products;
-      _total = res.total;
+      _total = res.total > 0 ? res.total : res.products.length;
     } catch (e) {
       _error = e.toString();
+      _products = [];
+      _total = 0;
     }
 
     _loading = false;
@@ -80,7 +84,7 @@ class ProductProvider extends ChangeNotifier {
     try {
       final res = await _api.getProductsByCategory(category);
       _products = res.products;
-      _total = res.total;
+      _total = res.total > 0 ? res.total : res.products.length;
     } catch (e) {
       _error = e.toString();
     }
