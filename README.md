@@ -1,3 +1,4 @@
+
 # GG.ID - Modern E-Commerce Application
 
 Aplikasi toko online lintas platform berbasis **Flutter** dengan desain antarmuka pastel yang modern, terintegrasi dengan backend **PHP + MySQL** yang berjalan di dalam kontainer **Docker**.
@@ -15,6 +16,11 @@ Aplikasi toko online lintas platform berbasis **Flutter** dengan desain antarmuk
 - Detail produk, keranjang belanja (*cart*), dan manajemen kuantiti
 - Navigasi layar mulus menggunakan GoRouter dan struktur *Provider*
 
+**Admin / Manajemen Toko**
+- Manajemen produk (tambah, edit, hapus)
+- Integrasi data dari backend PHP dan MySQL lokal via Docker
+
+---
 
 ## Teknologi
 
@@ -29,7 +35,6 @@ Aplikasi toko online lintas platform berbasis **Flutter** dengan desain antarmuk
 
 ## Struktur Folder
 
-```text
 App_Gis/
 ├── android/           # Konfigurasi native Android
 ├── ios/               # Konfigurasi native iOS
